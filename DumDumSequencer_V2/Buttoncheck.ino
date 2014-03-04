@@ -17,12 +17,12 @@ tapTempoBouncer.update();
   {
     tapTempoButtonState = LOW;
     tapTempoButtonStateLast = LOW;
-    Serial.print("******CHECK****LOW***");
+    //Serial.print("******CHECK****LOW***");
   }
   
   else if( tapTempoButtonState == !buttonPress )
   {
-     Serial.print("******CHECK****HIGH***");
+     //Serial.print("******CHECK****HIGH***");
     tapTempoButtonStateLast = HIGH;
   }
   

@@ -1,5 +1,5 @@
 //  
-// Version 2 of homebrewed sequencer for DumDum DrumMachine..
+// Version 2 of homebrewed sequencer for DumDum DrUmMachine..
 //
 
 #include <Bounce.h>  //Debouncing library
@@ -66,7 +66,7 @@ int beatPosition = 0;
 ///////////////////////////////////////////////////////
 void setup()
 {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   
   for(int i = 0; i < ARRAY_SIZE; i++)
   {
@@ -101,8 +101,8 @@ void setup()
 ///////////////////////////////////////////////////////////////////////
 void loop()  //Update timers, check for inputs and run routines acordingly
 {
-  Serial.print("TapButtonState:");
-  Serial.println(tapTempoButtonState);
+  //Serial.print("TapButtonState:");
+  //Serial.println(tapTempoButtonState);
   timerTempo.update();
   timerTimeOut.update();
   timerTempo.every(tempoDelay, tempoFlash);

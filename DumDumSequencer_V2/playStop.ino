@@ -1,3 +1,4 @@
+/*
 void playStop()
 {
   
@@ -12,5 +13,6 @@ void writeOutput()
     digitalWrite(outputSnare, LOW);
 
 }
+*/
   
 

@@ -1,65 +1,54 @@
-////////////////////////////////////////////////////////////
-//Tap tempo code partly based of Scott Lawrence's TapTempo// 
-//(http://umlautllama.com/projects/arduino/s/TapTempo.pde)//
-////////////////////////////////////////////////////////////
 
-
-int lastTapState = LOW;  /* the last tap button state */
-unsigned long currentTimer[2] = { 500, 500 };  /* array of most recent tap counts */
-unsigned long timeoutTime = 0;  /* this is when the timer will trigger next */
-
-unsigned long indicatorTimeout; /* for our fancy "blink" tempo indicator */
-
-void loop()
+void keepTempo()  ///Manages tempoBeat and checks for timeout between taps
 {
-  /* read the button on pin 8, and only pay attention to the
-     HIGH-LOW transition so that we only register when the
-     button is first pressed down */
-  b.update();
-  int tapState = b.read();
-  //int tapState = digitalRead( 8 );
-  if( tapState == LOW && tapState != lastTapState )
-  {
-    tap(); /* we got a HIGH-LOW transition, call our tap() function */
+ 
+  tempoCurrentState = millis();
+    
+  if( (tempoCurrentState - tempoLastState) >= tempoDelay){
+    tempoBeat();
+    tempoLastState = tempoCurrentState;
   }
-  lastTapState = tapState; /* keep track of the state */
-  
-  /* check for timer timeout */
-  if( millis() >= timeoutTime )
-  {
-    /* timeout happened.  clock tick! */
-    indicatorTimeout = millis() + 30;  /* this sets the time when LED 13 goes off */
-    /* and reschedule the timer to keep the pace */
-    rescheduleTimer();
+    
+  //Resets tap index if it takes to long to tap
+  if( tapState == true && (tempoCurrentState - tapArray[0])  > tempoDelayTimeout ){   
+    tempoArrayIndexReset();  
+    tapState == false;    
   }
+} 
+
+//////////////////////////////////////
+
+void tapTempo()  //Calculating new tempoDelay based on time between taps
+{
+  tapArray[tempoArrayIndex] = tempoCurrentState;
   
-  
-  /* display the tap blink on LED 13 */
-  
-    if( millis() < indicatorTimeout ) {
-      digitalWrite( 10, HIGH );
-    } else {
-      digitalWrite( 10, LOW );
+  if( tempoArrayIndex == 1 ){
+    tempoDelay = (tapArray[1] - tapArray[0]);
+    tempoArrayIndexReset();
+    tapState = false;
+    }
+    else{
+    tempoArrayIndex++;
+    tapState = true;
     }
   
 }
 
-unsigned long lastTap = 0; /* when the last tap happened */
-void tap()
+//////////////////////////////////////
+
+void tempoArrayIndexReset()  //Resetting index in tapArray
 {
-  /* we keep two of these around to average together later */
-  currentTimer[1] = currentTimer[0];
-  currentTimer[0] = millis() - lastTap;
-  lastTap = millis();
-  timeoutTime = 0; /* force the trigger to happen immediately - sync and blink! */
+  tempoArrayIndex = 0;
 }
 
-void rescheduleTimer()
+//////////////////////////////////////
+
+void tempoBeat()  //Sets tempoClock to true to indicate that current cycle is a "beat cycle"
 {
-    /* set the timer to go off again when the time reaches the 
-       timeout.  The timeout is all of the "currentTimer" values averaged
-       together, then added onto the current time.  When that time has been
-       reached, the next tick will happen...
-    */
-    timeoutTime = millis() + ((currentTimer[0] + currentTimer[1])/2);
+  tempoClock = true;
+}
+
+void resetTempoClock()  //Resetting tempoClock to false to indicate that current cycle in NOT a "beat cycle"
+{
+  tempoClock = false;
 }

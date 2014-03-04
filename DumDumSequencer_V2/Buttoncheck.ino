@@ -1,89 +1,23 @@
-void bouncerUpdate()
+void buttonCheck()
 {
-  ///Reset buttons to make sure they're LOW for just one cycle//
-  //////////////////////////////////////////////////////////
-  voiceSelectBassState = HIGH;
-  voiceSelectSnareState = HIGH;
-  playStopState = HIGH;
-  tapTempoButtonState = HIGH;
-///////////////////////////////////////////////////////////
+  tapTempoButtonState = !buttonPressed;
+  buttonCheckTapTempo();
 
-////////Debounce///////////////////////////////////////////
-///////////////////////////////////////////////////////////
-tapTempoBouncer.update();
-  tapTempoButtonState = tapTempoBouncer.read();
-  
-  if( tapTempoButtonState == buttonPress && tapTempoButtonStateLast == HIGH )
-  {
-    tapTempoButtonState = LOW;
-    tapTempoButtonStateLast = LOW;
-    //Serial.print("******CHECK****LOW***");
-  }
-  
-  else if( tapTempoButtonState == !buttonPress )
-  {
-     //Serial.print("******CHECK****HIGH***");
-    tapTempoButtonStateLast = HIGH;
-  }
-  
-  return;
-  
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*void buttonCheck()
+void buttonCheckTapTempo()
 {
-  ///////////Debounce///////////////
-  ////////////////////////////////
-  if (voiceSelectBassState != voiceSelectBassStateLast) {
-    // reset the debouncing timer
-    lastDebounceTime = millis();
-  } 
-  
-  if ((millis() - lastDebounceTime) > debounceDelay) {
-    // whatever the reading is at, it's been there for longer
-    // than the debounce delay, so take it as the actual current state:
-    voiceSelectBassState = voiceSelectBassState;
-  }
-
-  voiceSelectBassStateLast = voiceSelectBassState;
-}
-
-    //Check if button is being hold/////////////////////
-  ////////////////////////////////////////////////////
-  if(voiceSelectBassState == LOW && voiceSelectBassStateCheck == HIGH)
-  {
-    voiceSelectBassState = LOW;
-    voiceSelectBassCheck = LOW;  
-  } 
-  
-  else if(voiceSelectBassState = LOW && voiceSelectBassStateLast == LOW)
-  {
-    voiceSelectBassState = HIGH;
-    voiceSelectBassStateCheck = 
-  }
-  
+     tapTempoBouncer.update();
  
-/////////////////////////////////////////////////////////  
-  
+     if ( tapTempoBouncer.read() == buttonPressed && tapTempoButtonStateLast == !buttonPressed) {
+       tapTempoButtonState = buttonPressed;
+       tapTempoButtonStateLast = tapTempoButtonState;
+     }
+     
+     else if( tapTempoBouncer.read() == !buttonPressed )
+     {
+       tapTempoButtonState = !buttonPressed;
+       tapTempoButtonStateLast = tapTempoButtonState;
+     }
+}
 
-}*/

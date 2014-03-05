@@ -12,7 +12,7 @@ void keepTempo()  ///Manages tempoBeat and checks for timeout between taps
   //Resets tap index if it takes to long to tap
   if( tapState == true && (tempoCurrentState - tapArray[0])  > tempoDelayTimeout ){   
     tempoArrayIndexReset();  
-    tapState == false;    
+    tapState = false;    
   }
 } 
 

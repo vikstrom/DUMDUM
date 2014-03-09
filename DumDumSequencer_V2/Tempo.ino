@@ -15,7 +15,11 @@ void keepTempo()  ///Manages tempoBeat and checks for timeout between taps
     tapState = false;    
   }
   
+  if(tempoDelay != lastTempoDelay) {
   displayTempo();
+  }
+  
+  lastTempoDelay = tempoDelay;
 } 
 
 //////////////////////////////////////
@@ -56,8 +60,160 @@ void resetTempoClock()  //Resetting tempoClock to false to indicate that current
 }
 
 ///////////////////////////////////////////////////////////////////////
+/////////////////Display tempo on 7-segment diplay////////////////////
 
 void displayTempo()
 {
+  separateValue();
+  setOutputArray();
+  shiftArrayOut();
+}
+
+void separateValue()  //Prepare tempo display by seperating the numbers
+{
+   currentVal = (1000 / tempoDelay) * 60;  //Calculate BPM from tempoDelay
+   int(currentVal);
+   currentVal1 = currentVal / 100;
+   currentVal2 = (currentVal / 10) % 10;
+   currentVal3 = currentVal % 10;
+}
+
+void setOutputArray()  //Set the induvidual numbers for each segment and save i array
+{  
+ 
+  switch(currentVal1) {
+        
+    case 0:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = ZERO[i];
+      }
+      break;
+      
+      case 1:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = ONE[i];
+      }
+      break;
+      
+      case 2:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = TWO[i];
+      }
+      break;
+      
+      case 3:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = THREE[i];;
+      }
+      break;
+      
+      case 4:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = FOUR[i];
+      }
+      break;
+      
+      case 5:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = FIVE[i];
+      }
+      break;
+      
+      case 6:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = SIX[i];
+      }
+      break;
+      
+      case 7:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = SEVEN[i];
+      }
+      break;
+      
+      case 8:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = EIGHT[i];
+      }
+      break;
+      
+      case 9:
+      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+        masterDisplayOutput[i] = NINE[i];
+      }
+      break;
+  }
+  
+  switch(currentVal2) {
+  
+    case 0:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = ZERO[i-8];;
+      }
+      break;
+      
+      case 1:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = ONE[i-8];
+      }
+      break;
+      
+      case 2:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = TWO[i-8];
+      }
+      break;
+      
+      case 3:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = THREE[i-8];
+      }
+      break;
+      
+      case 4:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = FOUR[i-8];
+      }
+      break;
+      
+      case 5:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = FIVE[i-8];
+      }
+      break;
+      
+      case 6:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = SIX[i-8];
+      }
+      break;
+      
+      case 7:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = SEVEN[i-8];
+      }
+      break;
+      
+      case 8:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = EIGHT[i-8];
+      }
+      break;
+      
+      case 9:
+      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+        masterDisplayOutput[i] = NINE[i-8];
+      }
+      break;
+  }
+}
+
+void shiftArrayOut()  //Shift out the array.
+{
+  for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+    digitalWrite(DATA_PIN_164, masterDisplayOutput[i]);
+    digitalWrite(CLOCK_PIN_164, HIGH);  //Clock pulse
+    digitalWrite(CLOCK_PIN_164, LOW);
+  }
   
 }

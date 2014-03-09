@@ -14,6 +14,8 @@ void keepTempo()  ///Manages tempoBeat and checks for timeout between taps
     tempoArrayIndexReset();  
     tapState = false;    
   }
+  
+  displayTempo();
 } 
 
 //////////////////////////////////////
@@ -51,4 +53,11 @@ void tempoBeat()  //Sets tempoClock to true to indicate that current cycle is a 
 void resetTempoClock()  //Resetting tempoClock to false to indicate that current cycle in NOT a "beat cycle"
 {
   tempoClock = false;
+}
+
+///////////////////////////////////////////////////////////////////////
+
+void displayTempo()
+{
+  
 }

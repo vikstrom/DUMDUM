@@ -37,7 +37,8 @@ const byte NINE[8]  = {0,0,0,1,1,0,0,0};
 const int MASTER_DISPLAY_ARRAY_SIZE = 15;  //Master diplay array size -1
 int masterDisplayOutput[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-float currentVal = 000; //Tempo value is saved here for seperation
+float bpm;
+int currentVal = 000; //Tempo value is saved here for seperation
 int currentVal1 = 0;  //100-value of tempo, seperated
 int currentVal2 = 0;  //10-value of tempo. seperated
 int currentVal3 = 0;  //1-value of tempo, seperated
@@ -72,11 +73,13 @@ void loop()
     if( tapTempoButtonState == buttonPressed ){
       tapTempo();
       } 
- // Serial.println(currentVal);
- // Serial.println(tempoDelay);
+  Serial.println(tempoDelay);
+  Serial.println(currentVal);
+  Serial.println(currentVal1);
+  Serial.println(currentVal2);
+  Serial.println(currentVal3);
   
   digitalWrite(tempoLed, tempoClock);  //DEBUG, checking to se if tempo i correct
-  delay(3);
 }
 ///////////////////////////////////////////
 ///////////////////////////////////////////

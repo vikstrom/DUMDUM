@@ -71,8 +71,9 @@ void displayTempo()
 
 void separateValue()  //Prepare tempo display by seperating the numbers
 {
-   currentVal = (1000 / tempoDelay) * 60;  //Calculate BPM from tempoDelay
-   int(currentVal);
+   bpm = (float)60000 / (float)tempoDelay;  //Calculate BPM from tempoDelay
+   bpm = bpm + (float)0.5;  //Add 0.5 for rounding
+   currentVal = (int)bpm;    //Typecast back to int for separation
    currentVal1 = currentVal / 100;
    currentVal2 = (currentVal / 10) % 10;
    currentVal3 = currentVal % 10;
@@ -82,7 +83,7 @@ void setOutputArray()  //Set the induvidual numbers for each segment and save i 
 {  
  
   switch(currentVal1) {
-        
+ 
     case 0:
       for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
         masterDisplayOutput[i] = ZERO[i];
@@ -145,7 +146,7 @@ void setOutputArray()  //Set the induvidual numbers for each segment and save i 
   }
   
   switch(currentVal2) {
-  
+ 
     case 0:
       for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
         masterDisplayOutput[i] = ZERO[i-8];;

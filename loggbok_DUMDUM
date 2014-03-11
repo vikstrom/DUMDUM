@@ -1,0 +1,33 @@
+****tor  6 mar 2014 19:53:36 ****
+Ny loggbok eftersom jag lyckades sumpa den gamla när jag ominstallerade till ubuntu..
+
+Vad jag har klart nu är: buttonCheck och tempo.
+
+Jag sitter nu med 7-seg display och undersöker hur jag kan skriva ut tempot på tre stycken sådana. Sketchen ligger i "testmappen".
+
+Jag har nu lyckats räkna från 0-9 och när den når 9 börjar den om. Tyvärr fick jag lösa det på ett assembler-likt sätt. Jag sparar varje siffra 0-9 som array och läser in den arrayen jag behöver genom en switch case som kollar mot en decimal "currentValue"
+
+Jag har nu gjort en sketch som kan styra två, men praktiskt bevisat en, 7seg displayer via en shiftreg och 7seg decoder/driver. Jag använder tre utgångar från arduinon nu men i värsta fall räcker två. Alltså två utgångar för att driva tre 7seg, alltså 21 utgångar hade annars krävts..
+
+För att prova mer än en 7seg med driver och shiftreg måste jag göra en pcb eller perfboard, orkar inte koppla upp det på kopplingsplatta.
+
+Jag provade att koppla upp två st ändå, det verkar fungera. Noll visas hela tiden på den andra som det ska. Omprogrammering krävs för att byta siffran på den men det blir inte ett projekt för idag.
+
+***lör  8 mar 2014 14:23:43 ***
+7-seg går visst att driva från 164:an! Gott.
+
+Har nu lyckats styra två 7seg via två shiftreg. Jag kan skriva till båda dock mer eller mindre manuellt nu.
+
+Nu kan jag skicka in ett heltal, upp till tresiffrigt så får jag ut det på 7seg, kan dock bara se två just nu, behöver nämligen en till shiftreg. Ska ta och koppla upp det på en perboard men först: knappavläsning via shitreg!
+
+Har börjat integrera 7seg med tempo-koden, inte klar med detta. Committar i nuvarande läge och fortsätter imorgon.
+
+Blev inte så mycket sömn... Jag har nu fått in tempo display i workingbranch. BPM kovertering från tapDelay fungerar inte just nu. Det blir fel i divideringen, pga att endast heltalet sparas. Modulo?
+
+***mån 10 mar 2014 00:48:48 ***
+Problemet ligger säkrast i trunkeringen till int. Därför är nu currentVal float men konverteras innan separeringen utförs, detta borde lösa problemet men är inte testat än.
+
+Lade till en enkel typ av avrundning, genom att lägga till 0,5 i float innan trunkering får jag en avrundning till närmsta heltal.
+
+***tis 11 mar 2014 00:54:19 ***
+Har nu fixat problemet med tempodisplay, i alla fall verkar det så med de två 7seg jag har nu.

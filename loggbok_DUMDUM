@@ -31,3 +31,6 @@ Lade till en enkel typ av avrundning, genom att lägga till 0,5 i float innan tr
 
 ***tis 11 mar 2014 00:54:19 ***
 Har nu fixat problemet med tempodisplay, i alla fall verkar det så med de två 7seg jag har nu.
+
+***ons 19 mar 2014 12:58:38 ***
+Suttit lite snabbt med att lägga till den tredje displayen i tempodisplay. Har lagt till nya konstanter för att spara positioner i masterArray för utskriften.

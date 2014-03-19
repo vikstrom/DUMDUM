@@ -85,61 +85,61 @@ void setOutputArray()  //Set the induvidual numbers for each segment and save i 
   switch(currentVal1) {
  
     case 0:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = ZERO[i];
       }
       break;
       
       case 1:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = ONE[i];
       }
       break;
       
       case 2:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = TWO[i];
       }
       break;
       
       case 3:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = THREE[i];;
       }
       break;
       
       case 4:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = FOUR[i];
       }
       break;
       
       case 5:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = FIVE[i];
       }
       break;
       
       case 6:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = SIX[i];
       }
       break;
       
       case 7:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = SEVEN[i];
       }
       break;
       
       case 8:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = EIGHT[i];
       }
       break;
       
       case 9:
-      for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE / 2; i++) {
+      for(int i = 0; i <= FIRST_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = NINE[i];
       }
       break;
@@ -148,61 +148,61 @@ void setOutputArray()  //Set the induvidual numbers for each segment and save i 
   switch(currentVal2) {
  
     case 0:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
-        masterDisplayOutput[i] = ZERO[i-8];;
+      for(int i = FIRST_DISPLAY_ARRAY + 1; i <= SECOND_DISPLAY_ARRAY; i++) {
+        masterDisplayOutput[i] = ZERO[i-8];
       }
       break;
       
       case 1:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = ONE[i-8];
       }
       break;
       
       case 2:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = TWO[i-8];
       }
       break;
       
       case 3:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = THREE[i-8];
       }
       break;
       
       case 4:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = FOUR[i-8];
       }
       break;
       
       case 5:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = FIVE[i-8];
       }
       break;
       
       case 6:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = SIX[i-8];
       }
       break;
       
       case 7:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = SEVEN[i-8];
       }
       break;
       
       case 8:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = EIGHT[i-8];
       }
       break;
       
       case 9:
-      for(int i = 8; i <= MASTER_DISPLAY_ARRAY_SIZE; i++) {
+      for(int i = 8; i <= SECOND_DISPLAY_ARRAY; i++) {
         masterDisplayOutput[i] = NINE[i-8];
       }
       break;

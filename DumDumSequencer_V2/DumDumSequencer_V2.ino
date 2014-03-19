@@ -34,8 +34,11 @@ const byte SEVEN[8] = {0,0,0,1,1,1,1,0};
 const byte EIGHT[8] = {0,0,0,0,0,0,0,0};
 const byte NINE[8]  = {0,0,0,1,1,0,0,0};
 
-const int MASTER_DISPLAY_ARRAY_SIZE = 15;  //Master diplay array size -1
-int masterDisplayOutput[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+const int MASTER_DISPLAY_ARRAY_SIZE = 23;  //Master diplay array size -1
+int masterDisplayOutput[24] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+const int FIRST_DISPLAY_ARRAY = 7;  //These are used to keep track of masterDisplayOutput so that correct
+const int SECOND_DISPLAY_ARRAY = 15;  //array is sent to correct 7seg
+const int LAST_DISPLAY_ARRAY = 23;
 
 float bpm;
 int currentVal = 000; //Tempo value is saved here for seperation

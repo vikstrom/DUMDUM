@@ -1,0 +1,62 @@
+/////Pin define//////
+
+///buttonCheck Pins///
+#define PL_PIN_165 7
+#define CLOCK_PIN_165 8
+#define SERIAL_INPUT_165 9
+
+//Array to accept serial data//
+const int BUTTON_ARRAY_SIZE = 8;
+int masterButtonArray[BUTTON_ARRAY_SIZE] = {1,1,1,1,1,1,1,1};
+
+
+///Define buttons///
+int buttonState0;
+int buttonState1;
+int buttonState2;
+int buttonState3;
+int buttonState4;
+int buttonState5;
+int buttonState6;
+int buttonState7;
+
+void setup() 
+{
+	pinMode(PL_PIN_165, OUTPUT);
+	pinMode(CLOCK_PIN_165, OUTPUT);
+	pinMode(SERIAL_INPUT_165, INPUT);
+}
+
+void shiftSerialIn()
+{
+  digitalWrite(PL_PIN_165, LOW);  //Save current state of parallell inputs
+  //delay(2);  //Might work as a crude debouncer?
+  digitalWrite(PL_PIN_165, HIGH);  //Accept clock
+  
+  //Clock in serial data
+  for(int i = BUTTON_ARRAY_SIZE -1; i >= 0; i--) {
+    masterButtonArray[i] = digitalRead(SERIAL_INPUT_165);
+    digitalWrite(CLOCK_PIN_165, HIGH);
+    digitalWrite(CLOCK_PIN_165, LOW);
+ }  
+}
+
+void setButtonState()
+{
+  buttonState0 = masterButtonArray[0];
+  buttonState1 = masterButtonArray[1];
+  buttonState2 = masterButtonArray[2];
+  buttonState3 = masterButtonArray[3];
+  buttonState4 = masterButtonArray[4];
+  buttonState5 = masterButtonArray[5];
+  buttonState6 = masterButtonArray[6];
+  buttonState7 = masterButtonArray[7];
+  
+}
+
+void loop() 
+{
+	shiftSerialIn();
+	setButtonState();
+}
+

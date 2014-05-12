@@ -1,4 +1,4 @@
-#include <Bounce.h>
+//#include <Bounce.h>
 
 //Tempo assosiated buttons//
 #define tapTempoButton 8
@@ -62,7 +62,7 @@ void setup() {
  //Serial.begin(9600);
 }
 
-//////Instantiate debouncers//////////
+//////Instantiate debouncers////////
 Bounce tapTempoBouncer = Bounce( tapTempoButton, 7 ); 
 
 void loop() 

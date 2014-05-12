@@ -34,3 +34,10 @@ Har nu fixat problemet med tempodisplay, i alla fall verkar det så med de två 
 
 ***ons 19 mar 2014 12:58:38 ***
 Suttit lite snabbt med att lägga till den tredje displayen i tempodisplay. Har lagt till nya konstanter för att spara positioner i masterArray för utskriften.
+
+***Någon gång***
+7seg display-pcb:n är klar i eagle.
+
+***ons  7 maj 2014 22:50:35 ***
+Har tagit tag i shiftIn knapparna och kollat om debouncing behövs. Jag har gjort en sketch input_shitreg_test_toggletest som togglar en led av och på vid knapptryck. Det sker inga konstiga hopp så det verkar som att debounce är överflödigt när jag kör via shiftreg, konstigt men.
+Även om jag räknar i koden med en counter som har koll på 0-1 transion får jag ingen data som tyder på bounce, därför ska jag nu gå vidare på det påståendet och lämna detta problem.

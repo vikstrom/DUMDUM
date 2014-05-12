@@ -9,12 +9,14 @@
 #define DATA_PIN_164 10
 #define CLOCK_PIN_164  11
 
+#define led 13
+
 //Array to accept serial data//
-const int BUTTON_ARRAY_SIZE = 8;
-int masterButtonArray[BUTTON_ARRAY_SIZE] = {1,1,1,1,1,1,1,1};
+const int BUTTON_ARRAY_SIZE = 16;
+int masterButtonArray[BUTTON_ARRAY_SIZE] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
 
 ///Define buttons///
-int buttonState0;
+int tapTempoButtonState;
 int buttonState1;
 int buttonState2;
 int buttonState3;
@@ -22,6 +24,18 @@ int buttonState4;
 int buttonState5;
 int buttonState6;
 int buttonState7;
+int buttonState8;
+int buttonState9;
+int buttonState10;
+int buttonState11;
+int buttonState12;
+int buttonState13;
+int buttonState14;
+int buttonState15;
+int buttonPressed = 0; //Sets which buttonState should be considered a push
+
+///buttonCheck variables///
+int tapTempoButtonStateLast = !buttonPressed;
 
 ////////////////////tapTempo variables/////////////////////
 unsigned long tapArray[2] = {0, 0};  //For saving millis() value when tapButton is pressed
@@ -47,20 +61,22 @@ const byte NINE[8]  = {0,0,0,1,1,0,0,0};
 
 const int MASTER_DISPLAY_ARRAY_SIZE = 24;  //Master diplay array size
 int masterDisplayOutput[MASTER_DISPLAY_ARRAY_SIZE] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-const int FIRST_DISPLAY_ARRAY = 7;  //These are used to keep track of masterDisplayOutput so that correct
-const int SECOND_DISPLAY_ARRAY = 15;  //array is sent to correct 7seg
+const int FIRST_DISPLAY_ARRAY = 7;  //These are used to keep track of masterDisplayOutput so that correct array is sent to correct 7seg
+const int SECOND_DISPLAY_ARRAY = 15;  
 const int THIRD_DISPLAY_ARRAY = 23;
 
 float bpm;
-int currentVal = 000; //Tempo value is saved here for seperation
+int currentVal = 0; //Tempo value is saved here for seperation
 int currentVal1 = 0;  //100-value of tempo, seperated
 int currentVal2 = 0;  //10-value of tempo. seperated
 int currentVal3 = 0;  //1-value of tempo, seperated
 
-int lastTempoDelay = 0;
+int lastTempoDelay = 0; //For keeping time
 
 void setup() 
 {
+ // Serial.begin(9600);
+  pinMode(led, OUTPUT);
 	pinMode(PL_PIN_165, OUTPUT);
 	pinMode(CLOCK_PIN_165, OUTPUT);
 	pinMode(SERIAL_INPUT_165, INPUT);
@@ -82,15 +98,22 @@ void shiftSerialIn()
 
 void setButtonState()
 {
-  buttonState0 = masterButtonArray[0];
-  buttonState1 = masterButtonArray[1];
-  buttonState2 = masterButtonArray[2];
-  buttonState3 = masterButtonArray[3];
-  buttonState4 = masterButtonArray[4];
-  buttonState5 = masterButtonArray[5];
-  buttonState6 = masterButtonArray[6];
-  buttonState7 = masterButtonArray[7];
-  
+  tapTempoButtonState = masterButtonArray[0];  //button0
+  buttonState1 = masterButtonArray[1];    //button1
+  buttonState2 = masterButtonArray[2];    //button2
+  buttonState3 = masterButtonArray[3];    //button3
+  buttonState4 = masterButtonArray[4];    //button4
+  buttonState5 = masterButtonArray[5];    //button5
+  buttonState6 = masterButtonArray[6];    //button6
+  buttonState7 = masterButtonArray[7];    //button7
+  buttonState8 = masterButtonArray[8];    //button8
+  buttonState9 = masterButtonArray[9];    //button9
+  buttonState10 = masterButtonArray[10];  //button10
+  buttonState11 = masterButtonArray[11];  //button11
+  buttonState12 = masterButtonArray[12];  //button12
+  buttonState13 = masterButtonArray[13];  //button13
+  buttonState14 = masterButtonArray[14];  //button14
+  buttonState15 = masterButtonArray[15];  //button15
 }
 
 void keepTempo()  ///Manages tempoBeat and checks for timeout between taps
@@ -110,13 +133,12 @@ void keepTempo()  ///Manages tempoBeat and checks for timeout between taps
   }
   
   if(tempoDelay != lastTempoDelay) {
-  displayTempo();
+  
   }
   
   lastTempoDelay = tempoDelay;
 } 
 
-//////////////////////////////////////
 
 void tapTempo()  //Calculating new tempoDelay based on time between taps
 {
@@ -373,17 +395,88 @@ void displayTempo()
   shiftArrayOut();
 }
 
+void buttonCheck()
+{
+  //tapTempoButtonState = !buttonPressed;
+  buttonCheckTapTempo();
+
+}
+
+void buttonCheckTapTempo()
+{
+     if ( tapTempoButtonState == buttonPressed && tapTempoButtonStateLast == !buttonPressed ) {
+       tapTempoButtonState = buttonPressed;
+       tapTempoButtonStateLast = tapTempoButtonState;
+     }
+     
+     else if( tapTempoButtonState == !buttonPressed ) {
+       tapTempoButtonState = !buttonPressed;
+       tapTempoButtonStateLast = tapTempoButtonState;
+     }
+
+     else {
+      tapTempoButtonState = !buttonPressed;
+     }
+}
+
+void testing()
+{
+/*
+  Serial.print("Buttons: ");
+
+  Serial.print(tapTempoButtonState);
+  Serial.print(buttonState1);
+  Serial.print("  ");
+  
+  Serial.print(buttonState3);
+  Serial.print("  ");
+  
+  Serial.print(buttonState5);
+  Serial.print("  ");
+  
+  Serial.print(buttonState7);
+  Serial.print("  ");
+  
+  Serial.print(buttonState9);
+  Serial.print("  ");
+  
+  Serial.print(buttonState11);
+  Serial.print("  ");
+  
+  Serial.print(buttonState13);
+  Serial.print("  ");
+  
+  Serial.print(buttonState15);
+  Serial.println("  ");
+
+  Serial.print("Tempo: ");
+  Serial.print(currentVal1);
+  Serial.print(currentVal2);
+  Serial.println(currentVal3);
+  */
+
+  digitalWrite(led, tempoClock);
+}
+
 void loop() 
 {
 	///Manages buttons///
 	shiftSerialIn();	//Reads serial data of 165
 	setButtonState();	//Saves serial data to buttonstates
+  buttonCheck();
 
 	////Manage tempo and tap////////  
-  	resetTempoClock();  //Resetting tempoClock to false, see tapTempo tab
-  	keepTempo();  //Maintaining the tempo and setting tempoClock, also updates 7-seg diplay
-    	if( tapTempoButtonState == buttonPressed ){
-      		tapTempo();
-      	}
+  resetTempoClock();  //Resetting tempoClock to false, keepTempo will set tempoClock
+  keepTempo();  //Maintaining the tempo and setting tempoClock, also updates 7-seg diplay
+  if( tapTempoButtonState == buttonPressed ){
+     	tapTempo();
+  	}
+
+  ///Manage display///
+  displayTempo();
+  
+  ///TEST/DEBUG ROUTINE///
+  testing();
+
 }
 

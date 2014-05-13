@@ -10,10 +10,10 @@
 #define CLOCK_PIN_164  11
 
 ///playArray pins///
-#define bassPin 2
-#define snarePin 3
-#define closedHatPin 4
-#define openHatPin 5
+#define DATA_PIN_595 2
+#define CLOCK_PIN_595 3
+#define LATCH_PIN_595 4
+#define MASTER_RESET_PIN_595 5
 
 #define led 13
 
@@ -82,12 +82,14 @@ int lastTempoDelay = 0; //For keeping time
 
 //////////playArray constants and variables//////////////////
 const int PLAY_ARRAY_SIZE = 16;
+const int NUMBER_OF_VOICES = 4;
+int masterPlayArray[NUMBER_OF_VOICES];  //For output shifting
 int playCounter = 0;
 unsigned long tempoBeatClockTime1 = 0;  //Exact value is not important as long as Time2>Time1
 unsigned long tempoBeatClockTime2 = 5;
-const int BEAT_TIMEOUT = 10; //in millis
+const int BEAT_TIMEOUT = 5; //in millis
 int bassArray[PLAY_ARRAY_SIZE] = {1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0};
-int snareArray[PLAY_ARRAY_SIZE] = {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0};
+int snareArray[PLAY_ARRAY_SIZE] = {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1};
 int closedHatArray[PLAY_ARRAY_SIZE] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 int openHatArray[PLAY_ARRAY_SIZE] = {0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1};
 
@@ -96,17 +98,17 @@ int openHatArray[PLAY_ARRAY_SIZE] = {0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() 
 {
-  Serial.begin(9600);
+  // Serial.begin(9600);
   pinMode(led, OUTPUT);
 	pinMode(PL_PIN_165, OUTPUT);
 	pinMode(CLOCK_PIN_165, OUTPUT);
 	pinMode(SERIAL_INPUT_165, INPUT);
   pinMode(DATA_PIN_164, OUTPUT);
   pinMode(CLOCK_PIN_164, OUTPUT);
-  pinMode(bassPin, OUTPUT);
-  pinMode(snarePin, OUTPUT);
-  pinMode(closedHatPin, OUTPUT);
-  pinMode(openHatPin, OUTPUT);
+  pinMode(DATA_PIN_595, OUTPUT);
+  pinMode(CLOCK_PIN_595, OUTPUT);
+  pinMode(LATCH_PIN_595, OUTPUT);
+  pinMode(MASTER_RESET_PIN_595, OUTPUT);
 }
 
 void shiftSerialIn()  //Shifts in buttons to masterButtonArray
@@ -444,14 +446,50 @@ void buttonCheckTapTempo()
      }
 }
 
+void setPlayMasterArray()
+{
+  int i = 0;
+  masterPlayArray[i] = bassArray[playCounter];
+  i++;
+  masterPlayArray[i] = snareArray[playCounter];
+  i++;
+  masterPlayArray[i] = closedHatArray[playCounter];
+  i++;
+  masterPlayArray[i] = openHatArray[playCounter];
+}
+
+void shiftPlayMasterArray()
+{
+  digitalWrite(MASTER_RESET_PIN_595, HIGH); //Enable pins to be set
+  // digitalWrite(CLOCK_PIN_595, HIGH);
+  // digitalWrite(CLOCK_PIN_595, LOW);
+
+    for(int i = NUMBER_OF_VOICES - 1; i >= 0; i--) {
+    digitalWrite(DATA_PIN_595, masterPlayArray[i]);
+    digitalWrite(CLOCK_PIN_595, HIGH);  //Clock pulse
+    digitalWrite(CLOCK_PIN_595, LOW);
+  }
+  digitalWrite(LATCH_PIN_595, HIGH);
+  digitalWrite(LATCH_PIN_595, LOW);
+}
+
+void resetPlayMasterOut()
+{
+  digitalWrite(MASTER_RESET_PIN_595, LOW);
+  digitalWrite(LATCH_PIN_595, HIGH);
+  digitalWrite(LATCH_PIN_595, LOW);
+}
+
 void playArray()  //Checks if tempoBeatClock is true and sends playArrays out, if it is false is checks to see how many millis 
                   //have passed since last beat and set all output to LOW after that timeout.
 {
   if( tempoBeatClock == true ) {
-    digitalWrite(bassPin, bassArray[playCounter]);
+    setPlayMasterArray();
+    shiftPlayMasterArray(); 
+   /* digitalWrite(bassPin, bassArray[playCounter]);
     digitalWrite(snarePin, snareArray[playCounter]);
     digitalWrite(closedHatPin, closedHatArray[playCounter]);
-    digitalWrite(openHatPin, openHatArray[playCounter]);
+    digitalWrite(openHatPin, openHatArray[playCounter]); */
     tempoBeatClockTime1 = millis();
 
       if( playCounter == 15 ) {
@@ -465,10 +503,7 @@ void playArray()  //Checks if tempoBeatClock is true and sends playArrays out, i
   else {
       tempoBeatClockTime2 = millis();
     if( (tempoBeatClockTime2 - tempoBeatClockTime1) >= BEAT_TIMEOUT) {   
-      digitalWrite(bassPin, LOW);
-      digitalWrite(snarePin, LOW);
-      digitalWrite(closedHatPin, LOW);
-      digitalWrite(openHatPin, LOW);
+      resetPlayMasterOut();
     }
   }
 }
@@ -510,6 +545,7 @@ void testing()
   */
 
   digitalWrite(led, tempoBeatClock);
+  // resetPlayMasterOut();
 }
 
 void loop() 
@@ -535,12 +571,11 @@ void loop()
   
   ///DEBUG ROUTINE///
   testing();
-  /*
-  unsigned long looptimer2 = micros();
-  unsigned long printTime = looptimer2 - looptimer1;
-  Serial.print("Cycle time: ");
-  Serial.println(printTime);
-*/
+  
+  // unsigned long looptimer2 = micros();
+  // unsigned long printTime = looptimer2 - looptimer1;
+  // Serial.print("Cycle time: ");
+  // Serial.println(printTime);
 
 }
 

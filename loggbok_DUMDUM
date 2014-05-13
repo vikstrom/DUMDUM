@@ -53,3 +53,5 @@ Dags att påbörja tempoArray jobbet så att man kan programmera in sekvenser oc
 Har påbörjat arbetet med playArray, det fungerar. Använder just nu vanliga digitalWrite för att byta läge men ska förmodligen använda ett skiftregister även här, inte minst för att det då är lättare att lägga till andra röster senare.
 
 Utförde även en snabb koll på hur snabb koll på hur lång tid en cykel tar ca 900 us just nu.
+
+Har nu fixat så att en 595a används för att styra utgångarna. Detta gör att man kan använda latch för att sätta på samtliga utgångar exakt samtidigt. Dock verkar det som att loopen faktiskt går lite långsammare nu. Runt 900us normalt och ca 1000us under en "beat cycle". Dock kan jag nu slänga på fler röster eller annat utan hådrvaruändrningar.

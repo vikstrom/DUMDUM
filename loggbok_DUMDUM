@@ -46,3 +46,5 @@ Har tagit tag i shiftIn knapparna och kollat om debouncing behövs. Jag har gjor
 Har suttit och lagt ihop buttonCheck, tapTempo och tempoDisplay till en fil som jag kallar V3. Jag har nu 16 knappar totalt som skiftas in och det fungerar, dock måste det skiftas in via två register annars blir det fel i arrayen. Hade också problem med edge-detection men nu fungerar det. Inga problem med bounce, förutom att knapp0 inte sitter så bra..
 
 Det som är igång nu i V3 är taptempo med led13 som tempoled. 7seg borde fungera eftersom jag kan kolla på värderna som skickas till output arrayen och de stämmer. Shift-in med buttoncheck fungerar dock endast på en knapp nu, jag måste fixa ett snyggare sätt att göra buttoncheck på.
+
+Dags att påbörja tempoArray jobbet så att man kan programmera in sekvenser och spela upp dem.

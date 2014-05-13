@@ -13,7 +13,7 @@
 
 //Array to accept serial data//
 const int BUTTON_ARRAY_SIZE = 16;
-int masterButtonArray[BUTTON_ARRAY_SIZE] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
+int masterButtonArray[BUTTON_ARRAY_SIZE] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 ///Define buttons///
 int tapTempoButtonState;
@@ -75,7 +75,7 @@ int lastTempoDelay = 0; //For keeping time
 
 void setup() 
 {
- // Serial.begin(9600);
+  // Serial.begin(9600);
   pinMode(led, OUTPUT);
 	pinMode(PL_PIN_165, OUTPUT);
 	pinMode(CLOCK_PIN_165, OUTPUT);

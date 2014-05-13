@@ -48,3 +48,8 @@ Har suttit och lagt ihop buttonCheck, tapTempo och tempoDisplay till en fil som 
 Det som är igång nu i V3 är taptempo med led13 som tempoled. 7seg borde fungera eftersom jag kan kolla på värderna som skickas till output arrayen och de stämmer. Shift-in med buttoncheck fungerar dock endast på en knapp nu, jag måste fixa ett snyggare sätt att göra buttoncheck på.
 
 Dags att påbörja tempoArray jobbet så att man kan programmera in sekvenser och spela upp dem.
+
+***tis 13 maj 2014 23:49:45 
+Har påbörjat arbetet med playArray, det fungerar. Använder just nu vanliga digitalWrite för att byta läge men ska förmodligen använda ett skiftregister även här, inte minst för att det då är lättare att lägga till andra röster senare.
+
+Utförde även en snabb koll på hur snabb koll på hur lång tid en cykel tar ca 900 us just nu.

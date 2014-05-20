@@ -55,3 +55,9 @@ Har påbörjat arbetet med playArray, det fungerar. Använder just nu vanliga di
 Utförde även en snabb koll på hur snabb koll på hur lång tid en cykel tar ca 900 us just nu.
 
 Har nu fixat så att en 595a används för att styra utgångarna. Detta gör att man kan använda latch för att sätta på samtliga utgångar exakt samtidigt. Dock verkar det som att loopen faktiskt går lite långsammare nu. Runt 900us normalt och ca 1000us under en "beat cycle". Dock kan jag nu slänga på fler röster eller annat utan hådrvaruändrningar.
+
+***mån 19 maj 2014 01:18:52 
+Suttit och gjort flödesschema av programmet, inte klar än på ett tag. Upptäckte dock en konstig grej i keepTempo, en if-sats som inte gör något. Den gör heller ingen skada men bör kikas på när jag kan kontrollera att inget går fel med Arduinon.
+
+***tis 20 maj 2014 23:38:41 
+Igår bytte jag ut digitalWrite till digitalWriteFast med resultatet blev att loopen nu tar 400us.

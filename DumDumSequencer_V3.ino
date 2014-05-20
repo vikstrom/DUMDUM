@@ -1,3 +1,7 @@
+
+// #include "digitalWriteFast.h"
+#include "digitalWriteFast/digitalWriteFast.h"
+
 /////Pin define//////
 
 ///buttonCheck Pins///
@@ -98,7 +102,7 @@ int openHatArray[PLAY_ARRAY_SIZE] = {0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() 
 {
-  // Serial.begin(9600);
+  Serial.begin(9600);
   pinMode(led, OUTPUT);
 	pinMode(PL_PIN_165, OUTPUT);
 	pinMode(CLOCK_PIN_165, OUTPUT);
@@ -113,15 +117,15 @@ void setup()
 
 void shiftSerialIn()  //Shifts in buttons to masterButtonArray
 {
-  digitalWrite(PL_PIN_165, LOW);  //Save current state of parallell inputs
+  digitalWriteFast(PL_PIN_165, LOW);  //Save current state of parallell inputs
   //delay(2);  //Might work as a crude debouncer?
-  digitalWrite(PL_PIN_165, HIGH);  //Accept clock
+  digitalWriteFast(PL_PIN_165, HIGH);  //Accept clock
   
   //Clock in serial data
   for(int i = BUTTON_ARRAY_SIZE - 1; i >= 0; i--) {
     masterButtonArray[i] = digitalRead(SERIAL_INPUT_165);
-    digitalWrite(CLOCK_PIN_165, HIGH);
-    digitalWrite(CLOCK_PIN_165, LOW);
+    digitalWriteFast(CLOCK_PIN_165, HIGH);
+    digitalWriteFast(CLOCK_PIN_165, LOW);
  }  
 }
 
@@ -159,10 +163,6 @@ void keepTempo()  ///Manages tempoBeat and checks for timeout between taps
   if( tapState == true && (tempoCurrentState - tapArray[0])  > tempoDelayTimeout ){   
     tempoArrayIndexReset();  
     tapState = false;    
-  }
-  
-  if(tempoDelay != lastTempoDelay) {
-  
   }
   
   lastTempoDelay = tempoDelay;
@@ -410,9 +410,9 @@ void setOutputArray()  //Set the induvidual numbers for each segment and save in
 void shiftArrayOut()  //Shift out the array.
 {
   for(int i = 0; i <= MASTER_DISPLAY_ARRAY_SIZE - 1; i++) {
-    digitalWrite(DATA_PIN_164, masterDisplayOutput[i]);
-    digitalWrite(CLOCK_PIN_164, HIGH);  //Clock pulse
-    digitalWrite(CLOCK_PIN_164, LOW);
+    digitalWriteFast(DATA_PIN_164, masterDisplayOutput[i]);
+    digitalWriteFast(CLOCK_PIN_164, HIGH);  //Clock pulse
+    digitalWriteFast(CLOCK_PIN_164, LOW);
   }
   
 }
@@ -460,24 +460,24 @@ void setPlayMasterArray()
 
 void shiftPlayMasterArray()
 {
-  digitalWrite(MASTER_RESET_PIN_595, HIGH); //Enable pins to be set
-  // digitalWrite(CLOCK_PIN_595, HIGH);
-  // digitalWrite(CLOCK_PIN_595, LOW);
+  digitalWriteFast(MASTER_RESET_PIN_595, HIGH); //Enable pins to be set
+  // digitalWriteFast(CLOCK_PIN_595, HIGH);
+  // digitalWriteFast(CLOCK_PIN_595, LOW);
 
     for(int i = NUMBER_OF_VOICES - 1; i >= 0; i--) {
-    digitalWrite(DATA_PIN_595, masterPlayArray[i]);
-    digitalWrite(CLOCK_PIN_595, HIGH);  //Clock pulse
-    digitalWrite(CLOCK_PIN_595, LOW);
+    digitalWriteFast(DATA_PIN_595, masterPlayArray[i]);
+    digitalWriteFast(CLOCK_PIN_595, HIGH);  //Clock pulse
+    digitalWriteFast(CLOCK_PIN_595, LOW);
   }
-  digitalWrite(LATCH_PIN_595, HIGH);
-  digitalWrite(LATCH_PIN_595, LOW);
+  digitalWriteFast(LATCH_PIN_595, HIGH);
+  digitalWriteFast(LATCH_PIN_595, LOW);
 }
 
 void resetPlayMasterOut()
 {
-  digitalWrite(MASTER_RESET_PIN_595, LOW);
-  digitalWrite(LATCH_PIN_595, HIGH);
-  digitalWrite(LATCH_PIN_595, LOW);
+  digitalWriteFast(MASTER_RESET_PIN_595, LOW);
+  digitalWriteFast(LATCH_PIN_595, HIGH);
+  digitalWriteFast(LATCH_PIN_595, LOW);
 }
 
 void playArray()  //Checks if tempoBeatClock is true and sends playArrays out, if it is false is checks to see how many millis 
@@ -486,10 +486,10 @@ void playArray()  //Checks if tempoBeatClock is true and sends playArrays out, i
   if( tempoBeatClock == true ) {
     setPlayMasterArray();
     shiftPlayMasterArray(); 
-   /* digitalWrite(bassPin, bassArray[playCounter]);
-    digitalWrite(snarePin, snareArray[playCounter]);
-    digitalWrite(closedHatPin, closedHatArray[playCounter]);
-    digitalWrite(openHatPin, openHatArray[playCounter]); */
+   /* digitalWriteFast(bassPin, bassArray[playCounter]);
+    digitalWriteFast(snarePin, snareArray[playCounter]);
+    digitalWriteFast(closedHatPin, closedHatArray[playCounter]);
+    digitalWriteFast(openHatPin, openHatArray[playCounter]); */
     tempoBeatClockTime1 = millis();
 
       if( playCounter == 15 ) {
@@ -507,6 +507,8 @@ void playArray()  //Checks if tempoBeatClock is true and sends playArrays out, i
     }
   }
 }
+
+
 
 void testing()
 {
@@ -544,13 +546,13 @@ void testing()
   Serial.println(currentVal3);
   */
 
-  digitalWrite(led, tempoBeatClock);
+  digitalWriteFast(led, tempoBeatClock);
   // resetPlayMasterOut();
 }
 
 void loop() 
 {
-  // unsigned long looptimer1 = micros();
+  unsigned long looptimer1 = micros();
 	///Manages buttons///
 	shiftSerialIn();	//Reads serial data of 165
 	setButtonState();	//Saves serial data to buttonstates
@@ -572,10 +574,10 @@ void loop()
   ///DEBUG ROUTINE///
   testing();
   
-  // unsigned long looptimer2 = micros();
-  // unsigned long printTime = looptimer2 - looptimer1;
-  // Serial.print("Cycle time: ");
-  // Serial.println(printTime);
+  unsigned long looptimer2 = micros();
+  unsigned long printTime = looptimer2 - looptimer1;
+  Serial.print("Cycle time: ");
+  Serial.println(printTime);
 
 }
 

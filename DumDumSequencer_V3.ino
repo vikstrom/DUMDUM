@@ -48,6 +48,9 @@ const int BUTTON_PRESS = 0; //Sets which buttonState should be considered a push
 ///buttonCheck variables///
 int tapTempoButtonStateLast = !BUTTON_PRESS;
 
+long lastDebounceTime = 0;
+long debounceDelay = 50;
+
 ////////////////////tapTempo variables/////////////////////
 unsigned long tapArray[2] = {0, 0};  //For saving millis() value when tapButton is pressed
 boolean tapState = false;  //For checking if a tapTempo calculation is ongoing
@@ -178,9 +181,10 @@ void tapTempo()  //Calculating new tempoDelay based on time between taps
     tempoArrayIndexReset();
     tapState = false;
     }
-    else{
+
+  else{
     tempoArrayIndex++;
-    tapState = true;
+    tapState = true; 
     }
   
 }
@@ -201,7 +205,6 @@ void resetTempoBeatClock()  //Resetting tempoBeatClock to false to indicate that
 {
   tempoBeatClock = false;
 }
-
 
 
 void separateValue()  //Prepare tempo display by seperating the numbers
@@ -431,6 +434,7 @@ void buttonCheck()  //Edge-detection on buttons and anti-hold. Buttons are only 
 
 void buttonCheckTapTempo()
 {
+
      if ( tapTempoButtonState == BUTTON_PRESS && tapTempoButtonStateLast == !BUTTON_PRESS ) {
        tapTempoButtonState = BUTTON_PRESS;
        tapTempoButtonStateLast = tapTempoButtonState;
@@ -444,6 +448,22 @@ void buttonCheckTapTempo()
      else {
       tapTempoButtonState = !BUTTON_PRESS;
      }
+}
+
+void debounce()
+{
+  debounceTapTempo();
+}
+
+void debounceTapTempo()
+{
+  if( tapTempoButtonState != tapTempoButtonStateLast ) {
+    lastDebounceTime = millis();
+  }
+
+  if( millis() - lastDebounceTime  > debounceDelay ) {
+
+}
 }
 
 void setPlayMasterArray()
@@ -493,7 +513,7 @@ void playArray()  //Checks if tempoBeatClock is true and sends playArrays out, i
     tempoBeatClockTime1 = millis();
 
       if( playCounter == 15 ) {
-        playCounter = 0;
+        playCounterReset();
       }
       else {
         playCounter++;
@@ -506,6 +526,11 @@ void playArray()  //Checks if tempoBeatClock is true and sends playArrays out, i
       resetPlayMasterOut();
     }
   }
+}
+
+void playCounterReset()
+{
+  playCounter = 0;
 }
 
 
@@ -552,17 +577,19 @@ void testing()
 
 void loop() 
 {
-  unsigned long looptimer1 = micros();
+  // unsigned long looptimer1 = micros();
 	///Manages buttons///
 	shiftSerialIn();	//Reads serial data of 165
 	setButtonState();	//Saves serial data to buttonstates
-  buttonCheck();
+  debounce(); //Debounce
+  buttonCheck();    //Button check
 
 	////Manage tempo and tap////////  
   resetTempoBeatClock();  //Resetting tempoBeatClock to false, keepTempo will set tempoBeatClock if its a beat cycle
   keepTempo();  //Maintaining the tempo and setting tempoBeatClock
   if( tapTempoButtonState == BUTTON_PRESS ){
      	tapTempo();
+      playCounterReset();   //Resetting playArray so that current tap is beat 1
   	}
 
   ///Manage display///
@@ -574,10 +601,10 @@ void loop()
   ///DEBUG ROUTINE///
   testing();
   
-  unsigned long looptimer2 = micros();
-  unsigned long printTime = looptimer2 - looptimer1;
-  Serial.print("Cycle time: ");
-  Serial.println(printTime);
+  // unsigned long looptimer2 = micros();
+  // unsigned long printTime = looptimer2 - looptimer1;
+  // Serial.print("Cycle time: ");
+  // Serial.println(printTime);
 
 }
 

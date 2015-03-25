@@ -58,12 +58,3 @@ Har nu fixat så att en 595a används för att styra utgångarna. Detta gör att
 
 ***mån 19 maj 2014 01:18:52 
 Suttit och gjort flödesschema av programmet, inte klar än på ett tag. Upptäckte dock en konstig grej i keepTempo, en if-sats som inte gör något. Den gör heller ingen skada men bör kikas på när jag kan kontrollera att inget går fel med Arduinon.
-
-***tis 20 maj 2014 23:38:41 
-Igår bytte jag ut digitalWrite till digitalWriteFast med resultatet blev att loopen nu tar 400us.
-
-***sön 10 aug
-Har börjat göra 7seg displayen på en perfboard.
-
-***tis 12 aug
-Fortsatt med displayen.. detta orkar jag inte med att felsöka just nu. Eftersom jag redan har gjort en pdb-layout till den och eftersom power, noise och mixern måste göras om så kan jag ju lika gärna etsa lite. Det blir både bättre och snyggare. En pcb för alla knappar borde göras också när jag ändå håller på.
